@@ -1,0 +1,55 @@
+# Project-Specific Rules for ESP32-C6-Touch-LCD-1.47 Video Player
+
+## Python Package Management
+- ALWAYS use `uv` for installing Python packages, never use `pip` or `apt-get` for Python packages
+- Example: `uv pip install pyserial` instead of `pip install pyserial`
+
+## Compiling and Uploading to ESP32-C6
+
+### Board Configuration
+- Board: ESP32-C6 Dev Module
+- FQBN: `esp32:esp32:esp32c6:CDCOnBoot=cdc`
+- Port: `/dev/ttyACM0` (or check with `arduino-cli board list`)
+- IMPORTANT: Always enable `CDCOnBoot=cdc` for Serial.print() output to work
+
+### Compile Command
+```bash
+arduino-cli compile --fqbn esp32:esp32:esp32c6:CDCOnBoot=cdc /home/emil/temp/repos/ESP32-C6-Touch-LCD-1.47_video_player
+```
+
+### Upload Command
+```bash
+arduino-cli upload --fqbn esp32:esp32:esp32c6:CDCOnBoot=cdc -p /dev/ttyACM0 /home/emil/temp/repos/ESP32-C6-Touch-LCD-1.47_video_player
+```
+
+### Combined Compile and Upload
+```bash
+arduino-cli compile --fqbn esp32:esp32:esp32c6:CDCOnBoot=cdc /home/emil/temp/repos/ESP32-C6-Touch-LCD-1.47_video_player && \
+arduino-cli upload --fqbn esp32:esp32:esp32c6:CDCOnBoot=cdc -p /dev/ttyACM0 /home/emil/temp/repos/ESP32-C6-Touch-LCD-1.47_video_player
+```
+
+## Serial Monitoring
+To view Serial.print() output from the device:
+```bash
+python3 -c "import serial; ser=serial.Serial('/dev/ttyACM0', 115200, timeout=2);
+import time
+for i in range(300):
+    line = ser.readline().decode('utf-8', errors='ignore')
+    if line.strip(): print(line, end='')
+    time.sleep(0.01)"
+```
+
+## Library Dependencies
+This project uses custom library versions from the Waveshare demo:
+- GFX_Library_for_Arduino (modified version in ~/Arduino/libraries/)
+- esp_lcd_touch_axs5106l
+- lvgl
+- FastIMU
+
+Do not update GFX_Library_for_Arduino from arduino-cli as it will break compatibility.
+
+## SD Card Requirements
+Device requires SD card (≤32GB, FAT32) with:
+- `/mjpeg/*.mjpeg` - video files
+- `/images/app-select-screen.jpg` - main menu image
+- `/logos/*.jpg` - app icon images
