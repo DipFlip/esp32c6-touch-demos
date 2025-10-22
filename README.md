@@ -1,6 +1,6 @@
 # ESP32-C6 Touch LCD 1.47" Demo Collection
 
-Demo collection for the ESP32-C6-Touch-LCD-1.47 development board (172x320 touch display, QMI8658 IMU, WiFi 6, BLE 5).
+Demo collection for the [Waveshare ESP32-C6-LCD-1.47](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47) development board (172x320 touch display, QMI8658 IMU, WiFi 6, BLE 5).
 
 ## Examples
 
